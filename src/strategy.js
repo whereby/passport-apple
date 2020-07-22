@@ -22,8 +22,8 @@ const OAuth2Strategy = require('passport-oauth2'),
  *      keyID: "",
  *      privateKeyLocation: "",
  *      passReqToCallback: true
- *   }, function(req, accessToken, refreshToken, decodedIdToken, __ , cb) {
- *       // Here, check if the decodedIdToken.sub exists in your database!
+ *   }, function(req, accessToken, refreshToken, idToken, __ , cb) {
+ *       // Here, check if the jwt.decode(idToken).sub exists in your database!
  *       // __ parameter is REQUIRED for the sake of passport implementation
  *       // it should be profile in the future but apple hasn't implemented passing data 
  *       // in access token yet https://developer.apple.com/documentation/sign_in_with_apple/tokenresponse
@@ -92,8 +92,8 @@ function Strategy(options, verify) {
                         const results = JSON.parse(data);
                         const access_token = results.access_token;
                         const refresh_token = results.refresh_token;
-                        const decodedIdToken = jwt.decode(results.id_token)
-                        callback(null, access_token, refresh_token, decodedIdToken);
+                        const id_token = results.id_token
+                        callback(null, access_token, refresh_token, id_token);
                     }
                 }
             )
